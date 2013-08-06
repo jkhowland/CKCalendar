@@ -92,10 +92,10 @@
 - (id)init {
     self = [super init];
     if (self) {
-        self.backgroundColor = UIColorFromRGB(0xF2F2F2);
-        self.selectedBackgroundColor = UIColorFromRGB(0x88B6DB);
-        self.textColor = UIColorFromRGB(0x393B40);
-        self.selectedTextColor = UIColorFromRGB(0xF2F2F2);
+        self.backgroundColor = UIColorFromRGB(0xFFFFFF);
+        self.selectedBackgroundColor = UIColorFromRGB(0xE38F35);
+        self.textColor = UIColorFromRGB(0x6A6A6A);
+        self.selectedTextColor = UIColorFromRGB(0xFFFFFF);
     }
     return self;
 }
@@ -147,7 +147,7 @@
     self.onlyShowCurrentMonth = YES;
     self.adaptHeightToNumberOfWeeksInMonth = YES;
 
-    self.layer.cornerRadius = 6.0f;
+    self.layer.cornerRadius = 0.0f;
 
     UIView *highlight = [[UIView alloc] initWithFrame:CGRectZero];
     highlight.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.2];
@@ -182,7 +182,7 @@
     calendarContainer.layer.borderWidth = 1.0f;
     calendarContainer.layer.borderColor = [UIColor blackColor].CGColor;
     calendarContainer.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth;
-    calendarContainer.layer.cornerRadius = 4.0f;
+    calendarContainer.layer.cornerRadius = 0.0f;
     calendarContainer.clipsToBounds = YES;
     [self addSubview:calendarContainer];
     self.calendarContainer = calendarContainer;
@@ -197,8 +197,9 @@
         UILabel *dayOfWeekLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         dayOfWeekLabel.textAlignment = NSTextAlignmentCenter;
         dayOfWeekLabel.backgroundColor = [UIColor clearColor];
-        dayOfWeekLabel.shadowColor = [UIColor whiteColor];
-        dayOfWeekLabel.shadowOffset = CGSizeMake(0, 1);
+        dayOfWeekLabel.font = self.dayOfWeekLabelFont;
+        // dayOfWeekLabel.shadowColor = [UIColor whiteColor];
+        // dayOfWeekLabel.shadowOffset = CGSizeMake(0, 1);
         [labels addObject:dayOfWeekLabel];
         [self.calendarContainer addSubview:dayOfWeekLabel];
     }
@@ -218,7 +219,7 @@
     // initialize the thing
     self.monthShowing = [NSDate date];
     [self _setDefaultStyle];
-    
+
     [self layoutSubviews]; // TODO: this is a hack to get the first month to show properly
 }
 
@@ -325,7 +326,7 @@
         date = [self _nextDay:date];
         dateButtonPosition++;
     }
-    
+
     if ([self.delegate respondsToSelector:@selector(calendar:didLayoutInRect:)]) {
         [self.delegate calendar:self didLayoutInRect:self.frame];
     }
@@ -432,7 +433,7 @@
 - (CGRect)_calculateDayCellFrame:(NSDate *)date {
     NSInteger numberOfDaysSinceBeginningOfThisMonth = [self _numberOfDaysFromDate:self.monthShowing toDate:date];
     NSInteger row = (numberOfDaysSinceBeginningOfThisMonth + [self _placeInWeekForDate:self.monthShowing]) / 7;
-	
+
     NSInteger placeInWeek = [self _placeInWeekForDate:date];
 
     return CGRectMake(placeInWeek * (self.cellWidth + CELL_BORDER_WIDTH), (row * (self.cellWidth + CELL_BORDER_WIDTH)) + CGRectGetMaxY(self.daysHeader.frame) + CELL_BORDER_WIDTH, self.cellWidth, self.cellWidth);
